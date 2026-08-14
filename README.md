@@ -39,10 +39,11 @@
 
 | Feature | Description |
 |---|---|
-| 🎮 **Arrow-Key Navigation** | Fully interactive TUI — navigate quality selectors and directory trees with **Up / Down / Enter** (no numeric typing). |
+| 🎮 **Arrow-Key Quality Picker** | Interactive TUI — navigate video resolutions & MP3 options with **Up / Down / Enter** (no numeric typing). |
+| 📂 **Native OS Folder Picker Popup** | Hitting Enter immediately opens your operating system's native **File Explorer / Folder Dialog** window to select the destination visually. |
 | 🎬 **Smart Stream Remuxing** | Automatically groups formats (4K, 2K, 1080p, 720p, 480p, 360p) and remuxes separate video + best audio streams into MP4 via FFmpeg. |
 | 🎵 **Direct MP3 Audio Extraction** | One-click audio download that fetches the highest bitrate audio and extracts clean MP3s using FFmpeg post-processing. |
-| 📁 **Interactive Folder Browser** | In-terminal folder explorer starting at your OS Downloads folder, with dynamic navigation (`..`), subfolder traversing, and manual path fallback. |
+| 📁 **Interactive Terminal Fallback** | Fallback in-terminal directory navigator with subfolder traversing, parent navigation (`..`), and manual path input. |
 | 📊 **Neon Live Progress Bar** | Rich animated progress display showing download percentage, transfer speed (MB/s), ETA countdown, and merging spinners. |
 | 🛡️ **Anti-403 Multi-Client Engine** | Configured with resilient client fallbacks (`mweb`, `android`, `web`, `tv`) to eliminate HTTP 403 Forbidden errors. |
 | 💾 **History & Config Persistence** | Remembers your last-used download folder and maintains a download history in `~/.yt_grabber_config.json`. |
@@ -175,12 +176,9 @@ python main.py
     ──────────────────────────────────────────
     🎵 MP3        Audio only (Best Quality)  ~6.4 MB
 
-? Choose download folder (Current: C:\Users\avii\Downloads):
-  ▶ ✅ Save here [C:\Users\avii\Downloads]
-    ✏️ Type path manually...
-    📁 .. (Go up)
-    📁 Music
-    📁 Videos
+Opening folder selector window...
+[🗂️ Native OS File Explorer / Folder Dialog window opens in foreground]
+✓ Selected folder: C:\Users\avii\Desktop
 
 Starting download for: Sample YouTube Video
 ⠦ Downloading Sample Video.mp4 ━━━━━━━━━━━━━━━━━━━ 75% • 4.2 MB/s • ETA 00:08

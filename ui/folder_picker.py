@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+# Ensure UTF-8 output encoding on Windows console
 if sys.platform == "win32":
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -13,7 +14,6 @@ if sys.platform == "win32":
 import questionary
 from rich.console import Console
 
-
 from ui.format_menu import CUSTOM_STYLE
 from utils.config import get_last_download_dir, set_last_download_dir
 from utils.helpers import get_default_download_directory
@@ -21,8 +21,117 @@ from utils.helpers import get_default_download_directory
 console = Console()
 
 
+def open_native_folder_dialog(initial_dir: Optional[str] = None) -> Optional[Path]:
+    """Open the native OS File Explorer folder picker popup window.
+
+    Args:
+        initial_dir: Optional starting directory path.
+
+    Returns:
+        Resolved Path of selected folder, or None if cancelled.
+    """
+    try:
+        import tkinter as tk
+        from tkinter import filedialog
+
+        root = tk.Tk()
+        root.withdraw()
+        root.wm_attributes("-topmost", 1)
+        root.focus_force()
+
+        start_path = (
+            initial_dir
+            or get_last_download_dir()
+            or str(get_default_download_directory())
+        )
+
+        selected = filedialog.askdirectory(
+            title="avii's YT Grabber — Select Destination Folder",
+            initialdir=str(Path(start_path).resolve()),
+            mustexist=True,
+        )
+        root.destroy()
+
+        if selected:
+            selected_path = Path(selected).resolve()
+            set_last_download_dir(str(selected_path))
+            return selected_path
+        return None
+    except Exception as e:
+        return None
+
+
+def select_download_destination(initial_dir: Optional[str] = None) -> Path:
+    """Prompt the user for download destination using native OS popup, falling back to CLI.
+
+    Args:
+        initial_dir: Optional initial directory path string.
+
+    Returns:
+        Resolved Path object of the selected directory.
+    """
+    # 1. Try opening native OS folder picker popup first
+    native_path = open_native_folder_dialog(initial_dir)
+    if native_path:
+        return native_path
+
+    # 2. If user closed/cancelled popup or running headless, offer terminal choices
+    last_dir = get_last_download_dir()
+    fallback_dir = Path(last_dir) if (last_dir and Path(last_dir).exists()) else get_default_download_directory()
+
+    console.print(
+        f"[yellow]Window closed. Defaulting to:[/yellow] [cyan]{fallback_dir}[/cyan]"
+    )
+
+    action = questionary.select(
+        "Destination Folder:",
+        choices=[
+            questionary.Choice(
+                title=f"✅  Use default folder [{fallback_dir}]",
+                value="DEFAULT",
+            ),
+            questionary.Choice(
+                title="📂  Re-open OS Folder Picker window",
+                value="REOPEN",
+            ),
+            questionary.Choice(
+                title="📁  Browse folders in terminal (TUI)",
+                value="TUI",
+            ),
+            questionary.Choice(
+                title="✏️   Type path manually",
+                value="MANUAL",
+            ),
+        ],
+        style=CUSTOM_STYLE,
+        use_indicator=True,
+    ).ask()
+
+    if action == "REOPEN":
+        reopened = open_native_folder_dialog(str(fallback_dir))
+        if reopened:
+            return reopened
+        return fallback_dir
+    elif action == "TUI":
+        return interactive_folder_picker(str(fallback_dir))
+    elif action == "MANUAL":
+        manual_input = questionary.text(
+            "Enter folder path (or '.' for current directory):",
+            style=CUSTOM_STYLE,
+        ).ask()
+        if manual_input:
+            path = Path(manual_input.strip()).expanduser().resolve()
+            path.mkdir(parents=True, exist_ok=True)
+            set_last_download_dir(str(path))
+            return path
+        return fallback_dir
+    else:
+        set_last_download_dir(str(fallback_dir))
+        return fallback_dir
+
+
 def interactive_folder_picker(initial_dir: Optional[str] = None) -> Path:
-    """Provide an arrow-key navigable directory browser to select a download destination.
+    """Provide an arrow-key navigable terminal directory browser.
 
     Args:
         initial_dir: Optional initial directory path string.
@@ -41,7 +150,6 @@ def interactive_folder_picker(initial_dir: Optional[str] = None) -> Path:
 
     while True:
         try:
-            # List subdirectories
             subdirs = []
             for item in sorted(current_path.iterdir(), key=lambda p: p.name.lower()):
                 try:
@@ -54,11 +162,14 @@ def interactive_folder_picker(initial_dir: Optional[str] = None) -> Path:
             current_path = current_path.parent
             continue
 
-        # Build choices
         choices = [
             questionary.Choice(
                 title=f"✅  Save here [{current_path}]",
                 value=("CONFIRM", current_path),
+            ),
+            questionary.Choice(
+                title="📂  Open OS File Dialog Popup",
+                value=("NATIVE", None),
             ),
             questionary.Choice(
                 title="✏️   Type path manually...",
@@ -93,13 +204,17 @@ def interactive_folder_picker(initial_dir: Optional[str] = None) -> Path:
         ).ask()
 
         if selected_action is None:
-            # User pressed Ctrl+C or Esc, fallback to current_path
             set_last_download_dir(str(current_path))
             return current_path
 
         if selected_action == "CONFIRM":
             set_last_download_dir(str(current_path))
             return current_path
+
+        elif selected_action == "NATIVE":
+            res = open_native_folder_dialog(str(current_path))
+            if res:
+                return res
 
         elif selected_action == "NAVIGATE":
             current_path = target.resolve()

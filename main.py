@@ -17,7 +17,7 @@ from rich.console import Console
 from core.downloader import download_media
 from core.extractor import build_format_options, extract_video_info
 from ui.banner import print_banner, print_video_info
-from ui.folder_picker import interactive_folder_picker
+from ui.folder_picker import select_download_destination, interactive_folder_picker
 from ui.format_menu import CUSTOM_STYLE, select_format_menu
 from ui.progress import DownloadProgressManager
 from utils.config import add_history_entry
@@ -97,9 +97,10 @@ def run_app() -> None:
 
         console.print()
 
-        # 5. Destination Folder Selection
-        selected_dir = interactive_folder_picker()
-        console.print(f"[bold green]Selected folder:[/bold green] [cyan]{selected_dir}[/cyan]\n")
+        # 5. Destination Folder Selection (Opens Native OS Explorer Dialog)
+        console.print("[dim]Opening folder selector window...[/dim]")
+        selected_dir = select_download_destination()
+        console.print(f"[bold green]✓ Selected folder:[/bold green] [cyan]{selected_dir}[/cyan]\n")
 
         # 6. Download Execution
         video_title = info.get("title", "YouTube Video")
