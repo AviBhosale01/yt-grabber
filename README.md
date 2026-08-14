@@ -1,69 +1,145 @@
-# ⚡ Avii's YT Grabber
+<div align="center">
 
-> **A sleek, arrow-key-navigable terminal YouTube downloader crafted with Python, yt-dlp, and Rich.**
-> Made with ❤️ by **Avii**.
+# ⚡ avii's YT Grabber
 
----
+### *Next-Gen Terminal YouTube Video & Audio Downloader*
 
-## ✨ Features
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![yt-dlp](https://img.shields.io/badge/yt--dlp-2025.1%2B-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
+[![Rich](https://img.shields.io/badge/Rich-Terminal%20UI-00C7B7?style=for-the-badge&logo=gnometerminal&logoColor=white)](https://github.com/Textualize/rich)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-Remuxing-007808?style=for-the-badge&logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
+[![License](https://img.shields.io/badge/License-MIT-blueviolet.svg?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=linux&logoColor=white)](#prerequisites--installation)
 
-- 🎯 **Interactive TUI Menus**: Navigate quality options and browse directory trees natively using **Up/Down arrow keys + Enter** (no numeric typing).
-- 🎬 **Smart Stream Detection & Remuxing**: Automatic grouping of video resolutions (4K, 2K, 1080p, 720p, 480p, 360p) merged with optimal audio streams into clean MP4 files.
-- 🎵 **Audio Extraction**: Dedicated MP3 audio conversion using FFmpeg post-processing.
-- 📁 **Interactive Folder Browser**: Arrow-key directory navigator starting at your OS Downloads folder, with manual path entry fallback and last-used folder persistence.
-- 📊 **Rich Live Progress Bar**: Real-time download percentage, transfer speed (MB/s), ETA countdown, and status spinners during FFmpeg stream merging.
-- 🛡️ **Graceful Error Handling & Cleanup**: Safe traps for invalid URLs, private/deleted videos, age restrictions, and clean Ctrl+C cancellation without partial artifacts or tracebacks.
+<p align="center">
+  <a href="#-key-features">Key Features</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-prerequisites--installation">Installation</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-user-flow">User Flow</a> •
+  <a href="#-project-architecture">Architecture</a> •
+  <a href="#-license">License</a>
+</p>
 
----
-
-## 🛠️ Prerequisites & Setup
-
-### 1. Install FFmpeg (Required for remuxing high-res streams and MP3 extraction)
-
-Make sure FFmpeg is installed and accessible on your system `PATH` (`ffmpeg -version` should succeed).
-
-#### Windows
-- **Using Winget**:
-  ```powershell
-  winget install Gyan.FFmpeg
-  ```
-- **Using Chocolatey**:
-  ```powershell
-  choco install ffmpeg
-  ```
-- **Using Scoop**:
-  ```powershell
-  scoop install ffmpeg
-  ```
-- **Manual**: Download the build from [gyan.dev/ffmpeg/builds](https://www.gyan.dev/ffmpeg/builds/), extract, and add the `bin` folder to your Windows System `PATH`.
-
-#### macOS
-```bash
-brew install ffmpeg
+```
+  __  ________   __________  ___    ____  ____  __________ 
+  \ \/ /_  __/  / ____/ __ \/   |  / __ )/ __ )/ ____/ __ \
+   \  / / /    / / __/ /_/ / /| | / __  / __  / __/ / /_/ /
+   / / / /    / /_/ / _, _/ ___ |/ /_/ / /_/ / /___/ _, _/ 
+  /_/ /_/     \____/_/ |_/_/  |_/_____/_____/_____/_/ |_|  
+              ⚡ Terminal YouTube Downloader ⚡             
+                     made with ❤️ by avii                   
 ```
 
-#### Linux (Debian / Ubuntu / Arch)
+</div>
+
+---
+
+## 🚀 Key Features
+
+| Feature | Description |
+|---|---|
+| 🎮 **Arrow-Key Navigation** | Fully interactive TUI — navigate quality selectors and directory trees with **Up / Down / Enter** (no numeric typing). |
+| 🎬 **Smart Stream Remuxing** | Automatically groups formats (4K, 2K, 1080p, 720p, 480p, 360p) and remuxes separate video + best audio streams into MP4 via FFmpeg. |
+| 🎵 **Direct MP3 Audio Extraction** | One-click audio download that fetches the highest bitrate audio and extracts clean MP3s using FFmpeg post-processing. |
+| 📁 **Interactive Folder Browser** | In-terminal folder explorer starting at your OS Downloads folder, with dynamic navigation (`..`), subfolder traversing, and manual path fallback. |
+| 📊 **Neon Live Progress Bar** | Rich animated progress display showing download percentage, transfer speed (MB/s), ETA countdown, and merging spinners. |
+| 🛡️ **Anti-403 Multi-Client Engine** | Configured with resilient client fallbacks (`mweb`, `android`, `web`, `tv`) to eliminate HTTP 403 Forbidden errors. |
+| 💾 **History & Config Persistence** | Remembers your last-used download folder and maintains a download history in `~/.yt_grabber_config.json`. |
+| 🛑 **Graceful Signal Handling** | Non-destructive `Ctrl+C` cancellation that immediately removes temporary `.part` / `.ytdl` files without raw tracebacks. |
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Language** | ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) | Core application logic and runtime |
+| **Media Engine** | ![yt-dlp](https://img.shields.io/badge/yt--dlp-FF0000?style=flat-square&logo=youtube&logoColor=white) | Metadata extraction & multi-stream download |
+| **Media Processing** | ![FFmpeg](https://img.shields.io/badge/FFmpeg-007808?style=flat-square&logo=ffmpeg&logoColor=white) | Video/audio remuxing & MP3 encoding |
+| **Terminal UI** | ![Rich](https://img.shields.io/badge/Rich-00C7B7?style=flat-square&logo=gnometerminal&logoColor=white) | Neon gradients, panels, tables, live progress bars |
+| **Interactive Prompts** | ![Questionary](https://img.shields.io/badge/Questionary-FF6F00?style=flat-square&logo=inquirer&logoColor=white) | Arrow-key selection menus & folder browser |
+| **ASCII Typography** | ![PyFiglet](https://img.shields.io/badge/PyFiglet-8A2BE2?style=flat-square) | Header ASCII art rendering |
+
+</div>
+
+---
+
+## 📦 Prerequisites & Installation
+
+### 1. Install FFmpeg *(Required for merging high-res streams & MP3 conversion)*
+
+Verify FFmpeg is on your PATH by running `ffmpeg -version`. If not installed:
+
+<table>
+<tr>
+<th>Platform</th>
+<th>Installation Command</th>
+</tr>
+<tr>
+<td><b>🪟 Windows</b></td>
+<td>
+
+```powershell
+# Via Winget (Recommended)
+winget install Gyan.FFmpeg
+
+# Via Chocolatey
+choco install ffmpeg
+
+# Via Scoop
+scoop install ffmpeg
+```
+</td>
+</tr>
+<tr>
+<td><b>🍎 macOS</b></td>
+<td>
+
 ```bash
-# Ubuntu / Debian
+# Via Homebrew
+brew install ffmpeg
+```
+</td>
+</tr>
+<tr>
+<td><b>🐧 Linux</b></td>
+<td>
+
+```bash
+# Debian / Ubuntu
 sudo apt update && sudo apt install -y ffmpeg
 
 # Arch Linux
 sudo pacman -S ffmpeg
+
+# Fedora
+sudo dnf install ffmpeg
 ```
+</td>
+</tr>
+</table>
 
 ---
 
-### 2. Install Python Dependencies
-
-Make sure Python 3.9+ is installed:
+### 2. Clone & Install Dependencies
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/AviBhosale01/yt-grabber.git
+
+# 2. Enter project directory
+cd yt-grabber
+
+# 3. Install Python requirements
 pip install -r requirements.txt
 ```
 
 ---
 
-## 🚀 How to Run
+## ⚡ Quick Start
 
 Launch the application:
 
@@ -77,53 +153,101 @@ python main.py
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│    __  _______   __________  ___ _____  ___  __________   │
-│    \ \/ /_  __/  / ____/ __ \/   |  __ )/ __ )/ ____/ __ \  │
-│     \  / / /    / / __/ /_/ / /| | __  / __  / __/ / /_/ /  │
-│     / / / /    / /_/ / _, _/ ___ |/ /_/ / /_/ / /___/ _, _/   │
-│    /_/ /_/     \____/_/ |_/_/  |_/_____/_____/_____/_/ |_|   │
-│                                                             │
-│                ⚡ Terminal YouTube Downloader ⚡             │
-│                       made with ❤️  by Avii                  │
+│  ⚡ avii's YT Grabber                                      │
 └─────────────────────────────────────────────────────────────┘
 
-Paste YouTube link: https://www.youtube.com/watch?v=...
+? Paste YouTube link (or 'q' to quit): https://youtu.be/...
 
 ⠋ Fetching video info...
 
-Choose a format (↑↓ to navigate, Enter to select):
+╭─────────────────────────── ✓ Video Metadata Found ───────────────────────────╮
+│  🎬 Title:     Sample YouTube Video                                          │
+│  📺 Channel:   Creator Studio                                                │
+│  ⏱️ Duration:  04:32                                                         │
+│  👀 Views:     1,420,890                                                     │
+│  📅 Uploaded:  2024-06-15                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+? Choose a format (↑↓ to navigate, Enter to select):
   ▶ 🎬 1080p HD   MP4  (Video + Audio)   ~145.2 MB
     🎬 720p HD    MP4  (Video + Audio)   ~78.4 MB
     🎬 480p       MP4  (Video + Audio)   ~42.1 MB
     ──────────────────────────────────────────
     🎵 MP3        Audio only (Best Quality)  ~6.4 MB
 
-Choose download folder:
-  ▶ ✅ Save here [C:\Users\...\Downloads]
+? Choose download folder (Current: C:\Users\avii\Downloads):
+  ▶ ✅ Save here [C:\Users\avii\Downloads]
     ✏️ Type path manually...
     📁 .. (Go up)
     📁 Music
     📁 Videos
 
-Downloading "Sample_Video.mp4"
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  75%  •  4.2 MB/s  •  ETA 00:08
+Starting download for: Sample YouTube Video
+⠦ Downloading Sample Video.mp4 ━━━━━━━━━━━━━━━━━━━ 75% • 4.2 MB/s • ETA 00:08
 
-✔ Download Completed Successfully!
-📁 Saved Path: C:\Users\...\Downloads\Sample_Video.mp4
-📦 File Size: 145.2 MB in 12.4s
+╭─────────────────────── ✔ Download Completed Successfully! ────────────────────╮
+│  📁 Saved Path: C:\Users\avii\Downloads\Sample Video.mp4                     │
+│  📦 File Size:  145.2 MB in 12.4s                                             │
+│  🎯 File Name:  Sample Video.mp4                                             │
+╰───────────────────────────────────────────────────────────────────────────────╯
 
-Download another video? (Y/n):
+? Download another video? (Y/n)
+```
+
+---
+
+## 📂 Project Architecture
+
+```
+yt-grabber/
+├── main.py                 # Application lifecycle, error traps, interactive loop
+├── requirements.txt        # Python package dependencies
+├── LICENSE                 # MIT License
+├── README.md               # Visual documentation & setup guide
+├── core/
+│   ├── extractor.py        # Multi-client metadata extraction & format aggregation
+│   └── downloader.py       # Download engine, progress hook wiring, FFmpeg merging
+├── ui/
+│   ├── banner.py           # pyfiglet ASCII art & Rich metadata panels
+│   ├── format_menu.py      # Questionary arrow-key quality selection
+│   ├── folder_picker.py    # Arrow-key directory tree browser
+│   └── progress.py         # Real-time progress bar & post-processor state manager
+├── utils/
+│   ├── validators.py       # YouTube URL regex validator & Windows filename sanitizer
+│   ├── config.py           # Persistent settings & download history (~/.yt_grabber_config.json)
+│   └── helpers.py          # Human-readable byte formatting & system checks
+└── tests/
+    └── test_components.py  # Automated unit test suite (10 test cases)
+```
+
+---
+
+## 🧪 Testing
+
+Run the automated test suite:
+
+```bash
+python -m unittest discover tests
 ```
 
 ---
 
 ## ⚖️ Legal & Scope Disclaimer
 
-This tool is intended for personal and educational use on content that you own, have explicit rights to download, or which is published under Creative Commons licenses. Downloading copyrighted media without authorization may violate YouTube's Terms of Service and applicable copyright laws. Please use responsibly.
+This software is intended for personal and educational use on content that you own, have explicit rights to download, or which is published under Creative Commons licenses. Downloading copyrighted media without authorization may violate YouTube's Terms of Service and applicable copyright laws. Please use responsibly.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE) — see the [LICENSE](LICENSE) file for details.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
+---
+
+<div align="center">
+
+Made with ❤️ by [**Avi Bhosale**](https://github.com/AviBhosale01)
+
+⭐ **If you find this project useful, don't forget to give it a star on GitHub!** ⭐
+
+</div>
