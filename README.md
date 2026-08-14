@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ avii's YT Grabber
+# ⚡ Avii's YT Grabber
 
 ### *Next-Gen Terminal YouTube Video & Audio Downloader*
 
