@@ -1,7 +1,7 @@
-# ⚡ avii's YT Grabber
+# ⚡ Avii's YT Grabber
 
 > **A sleek, arrow-key-navigable terminal YouTube downloader crafted with Python, yt-dlp, and Rich.**
-> Made with ❤️ by **avii**.
+> Made with ❤️ by **Avii**.
 
 ---
 
@@ -84,7 +84,7 @@ python main.py
 │    /_/ /_/     \____/_/ |_/_/  |_/_____/_____/_____/_/ |_|   │
 │                                                             │
 │                ⚡ Terminal YouTube Downloader ⚡             │
-│                       made with ❤️  by avii                  │
+│                       made with ❤️  by Avii                  │
 └─────────────────────────────────────────────────────────────┘
 
 Paste YouTube link: https://www.youtube.com/watch?v=...
