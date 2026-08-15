@@ -12,19 +12,19 @@ import questionary
 from questionary import Style
 
 
-# Neon / Cyberpunk terminal theme for questionary
+# Retro 8-Bit Pixel Arcade theme for questionary
 CUSTOM_STYLE = Style(
     [
-        ("qmark", "fg:#ff007f bold"),
-        ("question", "fg:#f8f8f2 bold"),
-        ("answer", "fg:#50fa7b bold"),
-        ("pointer", "fg:#00ffff bold"),
-        ("highlighted", "fg:#00ffff bold"),
-        ("selected", "fg:#50fa7b"),
-        ("separator", "fg:#6272a4"),
-        ("instruction", "fg:#bd93f9 italic"),
-        ("text", "fg:#f8f8f2"),
-        ("disabled", "fg:#6272a4 italic"),
+        ("qmark", "fg:#FFE600 bold"),
+        ("question", "fg:#FFFFFF bold"),
+        ("answer", "fg:#39FF14 bold"),
+        ("pointer", "fg:#FFE600 bold"),
+        ("highlighted", "fg:#00F0FF bold"),
+        ("selected", "fg:#39FF14"),
+        ("separator", "fg:#FF007F bold"),
+        ("instruction", "fg:#FF9100 italic"),
+        ("text", "fg:#FFFFFF"),
+        ("disabled", "fg:#555555 italic"),
     ]
 )
 

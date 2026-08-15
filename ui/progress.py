@@ -49,20 +49,20 @@ class DownloadProgressManager:
     def start(self) -> None:
         """Initialize and start the live Rich progress display."""
         self.progress = Progress(
-            SpinnerColumn(spinner_name="dots", style="bright_cyan"),
-            TextColumn("[bold cyan]{task.description}[/bold cyan]"),
+            SpinnerColumn(spinner_name="dots", style="bold #00F0FF"),
+            TextColumn("[bold #00F0FF]{task.description}[/bold #00F0FF]"),
             BarColumn(
                 bar_width=35,
-                style="grey30",
-                complete_style="bold bright_magenta",
-                finished_style="bold bright_green",
+                style="grey23",
+                complete_style="bold #FFE600",
+                finished_style="bold #39FF14",
             ),
-            TaskProgressColumn(text_format="[bold bright_green]{task.percentage:>3.0f}%[/bold bright_green]"),
-            TextColumn("•", style="dim"),
+            TaskProgressColumn(text_format="[bold #39FF14]{task.percentage:>3.0f}%[/bold #39FF14]"),
+            TextColumn("•", style="dim #FF007F"),
             DownloadColumn(),
-            TextColumn("•", style="dim"),
+            TextColumn("•", style="dim #FF007F"),
             TransferSpeedColumn(),
-            TextColumn("•", style="dim"),
+            TextColumn("•", style="dim #FF007F"),
             TimeRemainingColumn(),
             console=self.console,
             transient=False,
@@ -162,21 +162,21 @@ class DownloadProgressManager:
         elif self.total_size_bytes:
             file_size_str = format_bytes(self.total_size_bytes)
 
-        dur_text = f" in {duration_sec:.1f}s" if duration_sec is not None else ""
+        dur_text = f" in [bold #FFE600]{duration_sec:.1f}s[/bold #FFE600]" if duration_sec is not None else ""
 
         table = Table(show_header=False, box=box.SIMPLE, expand=True)
-        table.add_column("Key", style="bold green", width=14)
+        table.add_column("Key", style="bold #00F0FF", width=14)
         table.add_column("Value", style="bright_white")
 
-        table.add_row("📁 Saved Path:", f"[bold cyan]{path_obj.resolve()}[/bold cyan]")
-        table.add_row("📦 File Size:", f"[bold yellow]{file_size_str}[/bold yellow]{dur_text}")
-        table.add_row("🎯 File Name:", f"[bold white]{path_obj.name}[/bold white]")
+        table.add_row("📁 Saved Path:", f"[bold #00F0FF]{path_obj.resolve()}[/bold #00F0FF]")
+        table.add_row("📦 File Size:", f"[bold #FFE600]{file_size_str}[/bold #FFE600]{dur_text}")
+        table.add_row("🎯 File Name:", f"[bold bright_white]{path_obj.name}[/bold bright_white]")
 
         panel = Panel(
             table,
-            title="[bold bright_green]✔ Download Completed Successfully![/bold bright_green]",
-            border_style="bright_green",
-            box=box.ROUNDED,
+            title="[bold #39FF14]👾 ★ STAGE COMPLETE — DOWNLOAD SUCCESSFUL! ★[/bold #39FF14]",
+            border_style="#39FF14",
+            box=box.DOUBLE,
             padding=(0, 1),
         )
         self.console.print()
