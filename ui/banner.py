@@ -20,62 +20,72 @@ console = Console(force_terminal=True, highlight=False)
 
 
 def print_banner() -> None:
-    """Render the 3D Pixel Arcade banner with authentic 8-bit typography and retro palette."""
-    # 3D Pixel Font for PIXELS (from the reference arcade title)
-    pixel_art_lines = [
-        "  ██████╗ ██╗██╗  ██╗███████╗██╗     ███████╗",
-        "  ██╔══██╗██║╚██╗██╔╝██╔════╝██║     ██╔════╝",
-        "  ██████╔╝██║ ╚███╔╝ █████╗  ██║     ███████╗",
-        "  ██╔═══╝ ██║ ██╔██╗ ██╔══╝  ██║     ╚════██║",
-        "  ██║     ██║██╔╝ ██╗███████╗███████╗███████║",
-        "  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝",
+    """Render the 3D Pixel Arcade banner with AVI'S typography and custom retro palette."""
+    # 3D Pixel Character segments for AVI'S (A, V, I, ', S)
+    avis_segments = [
+        (" █████╗ ", " ██╗   ██╗", "██╗", "██╗  ", "███████╗"),
+        ("██╔══██╗", " ██║   ██║", "██║", "╚═╝  ", "██╔════╝"),
+        ("███████║", " ██║   ██║", "██║", "     ", "███████╗"),
+        ("██╔══██║", " ╚██╗ ██╔╝", "██║", "     ", "╚════██║"),
+        ("██║  ██║", "  ╚████╔╝ ", "██║", "     ", "███████║"),
+        ("╚═╝  ╚═╝", "   ╚═══╝  ", "╚═╝", "     ", "╚══════╝"),
     ]
 
-    # Isometric block sub-banner for YT GRABBER
+    # Vibrant Terminal Color Palette (Red, Gold, Lime, White, Cyan)
+    char_styles = [
+        "bold #FF1E56",  # A - Crimson Neon
+        "bold #FFE600",  # V - Cyber Gold
+        "bold #00FF66",  # I - Electric Lime
+        "bold #FFFFFF",  # ' - Pure Diamond White
+        "bold #00F0FF",  # S - Electric Cyan
+    ]
+
+    banner_text = Text()
+
+    # Render AVI'S in multi-color 3D blocks
+    for row in avis_segments:
+        for idx, segment in enumerate(row):
+            banner_text.append(segment, style=char_styles[idx])
+        banner_text.append("\n")
+
+    banner_text.append("\n")
+
+    # Isometric sub-banner for YT GRABBER (Violet -> Magenta -> Neon Pink)
     sub_pixel_lines = [
         " █▄ █▄ ▀█▀   █▀▀█ █▀▀█ █▀▀█ █▀▀█ █▀▀█ █▀▀ █▀▀█ ",
         "  ▀█▄▀  █    █ ▄▄ █▄▄▀ █▄▄█ █▀▀▄ █▀▀▄ █▀▀ █▄▄▀ ",
         "   ▀█▀  █    █▄▄█ █  █ █  █ █▄▄█ █▄▄█ █▄▄ █  █ ",
     ]
 
-    banner_text = Text()
-
-    # Arcade Palette: Neon Yellow -> Bright Orange -> Hot Pink -> Cyber Violet -> Cyan
-    p_colors = ["#FFE600", "#FF9100", "#FF007F", "#D000FF", "#7209B7", "#00F0FF"]
-    for i, line in enumerate(pixel_art_lines):
-        banner_text.append(line + "\n", style=f"bold {p_colors[i % len(p_colors)]}")
-
-    banner_text.append("\n")
-
-    # Sub-bar in Electric Cyan & Space Lime
-    sub_colors = ["bold #00F0FF", "bold #00D8F6", "bold #39FF14"]
+    sub_styles = ["bold #BD00FF", "bold #D000FF", "bold #FF007F"]
     for i, line in enumerate(sub_pixel_lines):
-        banner_text.append("    " + line + "\n", style=sub_colors[i % len(sub_colors)])
+        banner_text.append("    " + line + "\n", style=sub_styles[i % len(sub_styles)])
 
     banner_text.append("\n")
 
-    # Retro Arcade Player Badge & Subtitle
+    # Retro Arcade Badges
     footer = Text()
-    footer.append(" 👾 8-BIT RETRO EDITION ", style="bold black on #00F0FF")
-    footer.append(" ⚡ NEXT-GEN TERMINAL GRABBER ", style="bold black on #FFE600")
+    footer.append(" 👾 8-BIT ARCADE ", style="bold black on #00FF66")
+    footer.append(" ⚡ YOUTUBE GRABBER ", style="bold black on #FFE600")
+    footer.append(" 🚀 PRO EDITION ", style="bold white on #BD00FF")
     footer.append("\n")
-    footer.append(" 🕹️  PLAYER: ", style="bold #FF007F")
+    footer.append(" 🕹️  CREATED BY: ", style="bold #FF007F")
     footer.append("Avii", style="bold #00F0FF underline")
     footer.append("   ★   ", style="bold #FFE600")
-    footer.append("HIGH-SCORE QUALITY ENGINE", style="bold #39FF14")
+    footer.append("ULTRA HIGH-SPEED DOWNLOAD ENGINE", style="bold #00FF66")
 
     banner_text.append_text(footer)
 
     ffmpeg_ready = check_ffmpeg_installed()
-    status_style = "bold #39FF14" if ffmpeg_ready else "bold #FF3366"
-    status_text = "● FFmpeg Ready  [100% 8-Bit Power]" if ffmpeg_ready else "▲ FFmpeg Missing [Remux Limited]"
+    status_style = "bold #00FF66" if ffmpeg_ready else "bold #FF1E56"
+    status_text = "● FFmpeg Ready  [Arcade Mode Active]" if ffmpeg_ready else "▲ FFmpeg Missing [Remux Limited]"
 
     panel = Panel(
         banner_text,
-        title="[bold #FFE600]══[ 🕹️  P I X E L   A R C A D E  ]══[/bold #FFE600]",
+        title="[bold #FFE600]══[ 🕹️   A V I I ' S   Y T   G R A B B E R   ]══[/bold #FFE600]",
         subtitle=f"[{status_style}]{status_text}[/{status_style}]",
         subtitle_align="right",
-        border_style="#FF007F",
+        border_style="#00F0FF",
         box=box.DOUBLE,
         padding=(1, 2),
     )
@@ -105,13 +115,13 @@ def print_video_info(info: dict) -> None:
 
     table.add_row("🎬 Title:", f"[bold bright_white]{title}[/bold bright_white]")
     table.add_row("📺 Channel:", f"[bold #FFE600]{channel}[/bold #FFE600]")
-    table.add_row("⏱️ Duration:", f"[bold #39FF14]{duration}[/bold #39FF14]")
+    table.add_row("⏱️ Duration:", f"[bold #00FF66]{duration}[/bold #00FF66]")
     table.add_row("👀 Views:", f"[#FF9100]{views_str}[/#FF9100]")
     table.add_row("📅 Uploaded:", f"[dim #00F0FF]{upload_date}[/dim #00F0FF]")
 
     panel = Panel(
         table,
-        title="[bold #39FF14]👾 ✓ Video Metadata Loaded[/bold #39FF14]",
+        title="[bold #00FF66]👾 ✓ Video Metadata Loaded[/bold #00FF66]",
         border_style="#00F0FF",
         box=box.ROUNDED,
         padding=(0, 1),
