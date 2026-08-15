@@ -14,8 +14,8 @@
 <p align="center">
   <a href="#-key-features">Key Features</a> •
   <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-prerequisites--installation">Installation</a> •
-  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-10-second-quick-start">10s Quick Start</a> •
+  <a href="#-prerequisites--step-by-step-setup">Setup Guide</a> •
   <a href="#-user-flow">User Flow</a> •
   <a href="#-project-architecture">Architecture</a> •
   <a href="#-license">License</a>
@@ -74,25 +74,42 @@
 
 Verify FFmpeg is on your PATH by running `ffmpeg -version`. If not installed:
 
+## ⚡ 10-Second Quick Start
+
+Copy and paste the 1-liner for your operating system:
+
+### 🪟 Windows (PowerShell)
+```powershell
+git clone https://github.com/AviBhosale01/yt-grabber.git; cd yt-grabber; python -m pip install -r requirements.txt; python main.py
+```
+> 💡 *Or simply double-click **`run.bat`** in the project folder!*
+
+### 🍎 macOS / 🐧 Linux (Bash/Zsh)
+```bash
+git clone https://github.com/AviBhosale01/yt-grabber.git && cd yt-grabber && python3 -m pip install -r requirements.txt && python3 main.py
+```
+> 💡 *Or run `./run.sh`!*
+
+---
+
+## 📦 Prerequisites & Step-by-Step Setup
+
+### Step 1: Install FFmpeg *(Required for 1080p+ stream merging & MP3 conversion)*
+
 <table>
 <tr>
 <th>Platform</th>
-<th>Installation Command</th>
+<th>Fastest Install Command</th>
 </tr>
 <tr>
 <td><b>🪟 Windows</b></td>
 <td>
 
 ```powershell
-# Via Winget (Recommended)
+# Run in PowerShell, then restart terminal:
 winget install Gyan.FFmpeg
-
-# Via Chocolatey
-choco install ffmpeg
-
-# Via Scoop
-scoop install ffmpeg
 ```
+*(Alternatively: `choco install ffmpeg` or `scoop install ffmpeg`)*
 </td>
 </tr>
 <tr>
@@ -100,7 +117,6 @@ scoop install ffmpeg
 <td>
 
 ```bash
-# Via Homebrew
 brew install ffmpeg
 ```
 </td>
@@ -110,14 +126,11 @@ brew install ffmpeg
 <td>
 
 ```bash
-# Debian / Ubuntu
+# Ubuntu / Debian
 sudo apt update && sudo apt install -y ffmpeg
 
 # Arch Linux
 sudo pacman -S ffmpeg
-
-# Fedora
-sudo dnf install ffmpeg
 ```
 </td>
 </tr>
@@ -125,26 +138,17 @@ sudo dnf install ffmpeg
 
 ---
 
-### 2. Clone & Install Dependencies
+### Step 2: Clone & Launch
 
 ```bash
-# 1. Clone the repository
+# 1. Clone the repo
 git clone https://github.com/AviBhosale01/yt-grabber.git
-
-# 2. Enter project directory
 cd yt-grabber
 
-# 3. Install Python requirements
-pip install -r requirements.txt
-```
+# 2. Install requirements (use 'python -m pip' to avoid Windows PATH errors)
+python -m pip install -r requirements.txt
 
----
-
-## ⚡ Quick Start
-
-Launch the application:
-
-```bash
+# 3. Run
 python main.py
 ```
 
