@@ -1,1 +1,1 @@
-"""UI modules for avii's YT Grabber."""
+"""UI modules for Avii's YT Grabber."""

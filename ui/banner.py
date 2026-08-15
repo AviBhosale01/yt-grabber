@@ -52,7 +52,7 @@ def print_banner() -> None:
         banner_content,
         border_style="bright_magenta",
         box=box.ROUNDED,
-        title="[bold bright_cyan]avii's YT Grabber[/bold bright_cyan]",
+        title="[bold bright_cyan]Avii's YT Grabber[/bold bright_cyan]",
         subtitle=f"[{status_style}]{status_text}[/{status_style}]",
         subtitle_align="right",
         padding=(1, 2),

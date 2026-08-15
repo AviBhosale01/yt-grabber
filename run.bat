@@ -1,8 +1,8 @@
 @echo off
 setlocal
-title avii's YT Grabber
+title Avii's YT Grabber
 echo ========================================
-echo    Starting avii's YT Grabber...
+echo    Starting Avii's YT Grabber...
 echo ========================================
 
 :: Check for Python

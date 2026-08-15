@@ -28,7 +28,7 @@ console = Console()
 
 
 def run_app() -> None:
-    """Run the main interactive loop for avii's YT Grabber."""
+    """Run the main interactive loop for Avii's YT Grabber."""
     while True:
         console.clear()
         print_banner()
@@ -54,7 +54,7 @@ def run_app() -> None:
                 sys.exit(0)
 
             if raw_input is None or raw_input.strip().lower() in ["q", "quit", "exit"]:
-                console.print("[bold magenta]Thanks for using avii's YT Grabber! Goodbye 👋[/bold magenta]")
+                console.print("[bold magenta]Thanks for using Avii's YT Grabber! Goodbye 👋[/bold magenta]")
                 sys.exit(0)
 
             clean_url = raw_input.strip()
@@ -141,7 +141,7 @@ def run_app() -> None:
             break
 
         if not download_another:
-            console.print("\n[bold magenta]Thanks for using avii's YT Grabber! Goodbye 👋[/bold magenta]")
+            console.print("\n[bold magenta]Thanks for using Avii's YT Grabber! Goodbye 👋[/bold magenta]")
             break
 
 

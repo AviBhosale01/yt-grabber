@@ -15,5 +15,5 @@ echo "Checking dependencies..."
 $PY_CMD -m pip install -r requirements.txt --quiet
 
 # Launch app
-echo "Launching avii's YT Grabber..."
+echo "Launching Avii's YT Grabber..."
 $PY_CMD main.py

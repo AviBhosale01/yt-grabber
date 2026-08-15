@@ -28,7 +28,7 @@
    / / / /    / /_/ / _, _/ ___ |/ /_/ / /_/ / /___/ _, _/ 
   /_/ /_/     \____/_/ |_/_/  |_/_____/_____/_____/_/ |_|  
               ⚡ Terminal YouTube Downloader ⚡             
-                     made with ❤️ by avii                   
+                     made with ❤️ by Avii                   
 ```
 
 </div>
@@ -158,7 +158,7 @@ python main.py
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  ⚡ avii's YT Grabber                                      │
+│  ⚡ Avii's YT Grabber                                      │
 └─────────────────────────────────────────────────────────────┘
 
 ? Paste YouTube link (or 'q' to quit): https://youtu.be/...
@@ -182,13 +182,13 @@ python main.py
 
 Opening folder selector window...
 [🗂️ Native OS File Explorer / Folder Dialog window opens in foreground]
-✓ Selected folder: C:\Users\avii\Desktop
+✓ Selected folder: C:\Users\Avii\Desktop
 
 Starting download for: Sample YouTube Video
 ⠦ Downloading Sample Video.mp4 ━━━━━━━━━━━━━━━━━━━ 75% • 4.2 MB/s • ETA 00:08
 
 ╭─────────────────────── ✔ Download Completed Successfully! ────────────────────╮
-│  📁 Saved Path: C:\Users\avii\Downloads\Sample Video.mp4                     │
+│  📁 Saved Path: C:\Users\Avii\Downloads\Sample Video.mp4                     │
 │  📦 File Size:  145.2 MB in 12.4s                                             │
 │  🎯 File Name:  Sample Video.mp4                                             │
 ╰───────────────────────────────────────────────────────────────────────────────╯

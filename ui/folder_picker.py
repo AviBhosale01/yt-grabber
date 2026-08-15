@@ -46,7 +46,7 @@ def open_native_folder_dialog(initial_dir: Optional[str] = None) -> Optional[Pat
         )
 
         selected = filedialog.askdirectory(
-            title="avii's YT Grabber — Select Destination Folder",
+            title="Avii's YT Grabber — Select Destination Folder",
             initialdir=str(Path(start_path).resolve()),
             mustexist=True,
         )
