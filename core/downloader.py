@@ -26,8 +26,8 @@ def download_media(
         Tuple of (success, saved_file_path, error_message, elapsed_seconds).
     """
     safe_title = sanitize_filename(video_title)
-    is_audio = selected_format.get("type") == "audio"
-    ext = selected_format.get("ext", "mp4" if not is_audio else "mp3")
+    fmt_type = selected_format.get("type", "video")
+    ext = selected_format.get("ext", "mp4")
 
     expected_filename = f"{safe_title}.{ext}"
     progress_manager = DownloadProgressManager(expected_filename)
@@ -36,8 +36,6 @@ def download_media(
     outtmpl_pattern = str(destination_dir / f"{safe_title}.%(ext)s")
 
     format_selector = selected_format.get("format_selector", "best")
-    if is_audio:
-        format_selector = "bestaudio[ext=m4a]/bestaudio/best"
 
     ydl_opts: Dict[str, Any] = {
         "outtmpl": outtmpl_pattern,
@@ -51,24 +49,25 @@ def download_media(
         "fragment_retries": 10,
         "extractor_args": {
             "youtube": {
-                "player_client": ["mweb", "android", "web", "tv"],
+                "player_client": ["web_creator", "android", "web"],
             }
         },
         "http_headers": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9",
         },
     }
 
-    if is_audio:
+    if fmt_type == "audio":
+        audio_q = selected_format.get("audio_quality", "192")
         ydl_opts["postprocessors"] = [
             {
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
-                "preferredquality": "192",
+                "preferredquality": audio_q,
             }
         ]
-    else:
+    elif fmt_type == "video":
         ydl_opts["merge_output_format"] = "mp4"
 
     start_time = time.time()
@@ -84,10 +83,8 @@ def download_media(
         # Locate saved file
         saved_file = progress_manager.downloaded_file_path
         if not saved_file or not Path(saved_file).exists():
-            # Search destination folder for matching safe_title
             candidates = list(destination_dir.glob(f"{safe_title}.*"))
             if candidates:
-                # Prefer exact extension match or newest
                 exact = [c for c in candidates if c.suffix.lower() == f".{ext}"]
                 saved_file = str(exact[0] if exact else candidates[0])
             else:

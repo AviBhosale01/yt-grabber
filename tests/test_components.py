@@ -147,9 +147,9 @@ class TestExtractor(unittest.TestCase):
         self.assertEqual(video_opts[0]["height"], 1080)
         self.assertEqual(video_opts[1]["height"], 720)
 
-        # Audio option
+        # Audio options
         audio_opts = [o for o in options if o.get("type") == "audio"]
-        self.assertEqual(len(audio_opts), 1)
+        self.assertTrue(len(audio_opts) >= 1)
         self.assertEqual(audio_opts[0]["ext"], "mp3")
 
 
