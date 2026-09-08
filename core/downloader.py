@@ -47,11 +47,7 @@ def download_media(
         "windowsfilenames": True,
         "retries": 10,
         "fragment_retries": 10,
-        "extractor_args": {
-            "youtube": {
-                "player_client": ["web_creator", "android", "web"],
-            }
-        },
+        "js_runtimes": {"node": {}},
         "http_headers": {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9",
