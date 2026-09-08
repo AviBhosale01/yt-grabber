@@ -2,5 +2,3 @@ yt-dlp>=2026.8.19
 rich>=13.7.0
 questionary>=2.0.1
 pyfiglet>=1.0.2
-fastapi>=0.110.0
-uvicorn>=0.28.0
