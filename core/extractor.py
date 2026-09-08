@@ -30,6 +30,7 @@ def extract_video_info(url: str) -> Tuple[Optional[Dict[str, Any]], Optional[str
         "no_warnings": True,
         "skip_download": True,
         "extract_flat": False,
+        "js_runtimes": {"node": {}},
         "http_headers": {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9",
@@ -63,6 +64,7 @@ def extract_video_info(url: str) -> Tuple[Optional[Dict[str, Any]], Optional[str
 
 def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Parse all available video resolutions and audio qualities from metadata.
+    Only genuine formats offered by YouTube are listed (no fake or non-existent resolutions).
 
     Args:
         info: Extracted video metadata dictionary.
@@ -77,7 +79,8 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
     best_audio_size = 0
     best_audio_tbr = 0
     for f in raw_formats:
-        if f.get("vcodec") == "none" and f.get("acodec") != "none":
+        # Audio-only stream
+        if f.get("vcodec") in (None, "none") and f.get("acodec") not in (None, "none"):
             size = f.get("filesize") or f.get("filesize_approx")
             if not size and f.get("tbr") and duration:
                 size = int(f["tbr"] * 1000 / 8 * duration)
@@ -86,28 +89,34 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
             if f.get("tbr") and f["tbr"] > best_audio_tbr:
                 best_audio_tbr = f["tbr"]
 
-    # 2. Gather All Available Video Resolutions (Deduplicate by height, tracking highest FPS & size)
+    # 2. Gather Genuine Video Resolutions
     resolutions_map: Dict[int, Dict[str, Any]] = {}
 
     for f in raw_formats:
         height = f.get("height")
         vcodec = f.get("vcodec")
+        ext = f.get("ext", "")
 
-        if not height or vcodec == "none":
+        # Skip storyboards, non-video streams, and audio-only streams
+        if not height or height <= 0:
+            continue
+        if vcodec in (None, "none"):
+            continue
+        if ext in ("mhtml", "jpg", "png", "webp") and "storyboard" in str(f.get("format_note", "")).lower():
             continue
 
         size = f.get("filesize") or f.get("filesize_approx")
         if not size and f.get("tbr") and duration:
             size = int(f["tbr"] * 1000 / 8 * duration)
 
-        fps = f.get("fps") or 30
+        fps = round(f.get("fps") or 30)
 
         if height not in resolutions_map:
             resolutions_map[height] = {
                 "height": height,
                 "fps": fps,
                 "video_size": size or 0,
-                "is_progressive": f.get("acodec") != "none",
+                "is_progressive": f.get("acodec") not in (None, "none"),
                 "ext": "mp4",
                 "format_note": f.get("format_note", ""),
             }
@@ -117,10 +126,10 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
                 curr["fps"] = fps
             if size and (curr["video_size"] == 0 or size > curr["video_size"]):
                 curr["video_size"] = size
-            if f.get("acodec") != "none":
+            if f.get("acodec") not in (None, "none"):
                 curr["is_progressive"] = True
 
-    # 3. Build Video Quality Options (Highest resolution to lowest)
+    # 3. Build Video Quality Options (Highest to lowest resolution)
     sorted_heights = sorted(resolutions_map.keys(), reverse=True)
     options: List[Dict[str, Any]] = []
 
@@ -166,12 +175,13 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
             quality_tag = f"{h}p"
             desc = "Data Saver"
 
-        # Resilient format selector for video + best audio merged into MP4
+        # Strictly prioritize the exact height {h} selected so it NEVER falls back to 360p!
         format_selector = (
-            f"bestvideo[height<={h}][ext=mp4]+bestaudio[ext=m4a]/"
+            f"bestvideo[height={h}][ext=mp4]+bestaudio[ext=m4a]/"
+            f"bestvideo[height={h}]+bestaudio/"
+            f"best[height={h}]/"
             f"bestvideo[height<={h}]+bestaudio/"
             f"best[height<={h}]/"
-            f"bestvideo+bestaudio/"
             f"best"
         )
 
@@ -187,7 +197,7 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
             "size_str": size_display,
         })
 
-    # Fallback if no video formats were parsed
+    # Fallback only if no video formats were detected at all
     if not options:
         options.append({
             "type": "video",
@@ -205,8 +215,7 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
         "label": "──────────── 🎵 Audio Only Options ────────────",
     })
 
-    # 4. Audio Options (Various MP3 bitrates & Original Audio)
-    # Estimate MP3 sizes by bitrate
+    # 4. Audio Options (Different MP3 bitrates & Original Audio Stream)
     def est_audio_size(kbps: int) -> str:
         if duration > 0:
             bytes_val = int((kbps * 1000 / 8) * duration)
@@ -232,7 +241,6 @@ def build_format_options(info: Dict[str, Any]) -> List[Dict[str, Any]]:
             "size_str": sz,
         })
 
-    # Original audio stream option (no re-encoding)
     orig_sz = format_bytes(best_audio_size) if best_audio_size > 0 else "size unknown"
     options.append({
         "type": "original_audio",
