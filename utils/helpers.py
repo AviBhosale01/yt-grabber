@@ -73,3 +73,20 @@ def get_default_download_directory() -> Path:
 
     # Fallback to home directory
     return Path.home()
+
+
+def is_valid_filepath(path: Union[str, Path]) -> bool:
+    """Check if a path or string points to a valid existing file.
+
+    Args:
+        path: Path object or string path.
+
+    Returns:
+        True if the path exists and is a file, False otherwise.
+    """
+    try:
+        p = Path(path)
+        return p.is_file() and p.exists()
+    except Exception:
+        return False
+
