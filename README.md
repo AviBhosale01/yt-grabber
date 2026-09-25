@@ -5,7 +5,7 @@
 ### *Next-Gen Terminal YouTube Video & Audio Downloader*
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![yt-dlp](https://img.shields.io/badge/yt--dlp-2025.1%2B-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
+[![yt-dlp](https://img.shields.io/badge/yt--dlp-2026.8%2B-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
 [![Rich](https://img.shields.io/badge/Rich-Terminal%20UI-00C7B7?style=for-the-badge&logo=gnometerminal&logoColor=white)](https://github.com/Textualize/rich)
 [![FFmpeg](https://img.shields.io/badge/FFmpeg-Remuxing-007808?style=for-the-badge&logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
 [![License](https://img.shields.io/badge/License-MIT-blueviolet.svg?style=for-the-badge)](LICENSE)
@@ -47,11 +47,11 @@
 |---|---|
 | 🎮 **Arrow-Key Quality Picker** | Interactive TUI — navigate video resolutions & MP3 options with **Up / Down / Enter** (no numeric typing). |
 | 📂 **Native OS Folder Picker Popup** | Hitting Enter immediately opens your operating system's native **File Explorer / Folder Dialog** window to select the destination visually. |
-| 🎬 **Smart Stream Remuxing** | Automatically groups formats (4K, 2K, 1080p, 720p, 480p, 360p) and remuxes separate video + best audio streams into MP4 via FFmpeg. |
-| 🎵 **Direct MP3 Audio Extraction** | One-click audio download that fetches the highest bitrate audio and extracts clean MP3s using FFmpeg post-processing. |
+| 🎬 **Smart Stream Remuxing** | Automatically discovers genuine resolutions (4K 60fps, 2K, 1080p, 720p, 480p, 360p, 240p, 144p) and remuxes separate video + best audio streams into MP4 via FFmpeg. |
+| 🎵 **Multi-Bitrate MP3 Extraction** | Direct audio downloads across multiple bitrates (320 kbps Ultra, 256 kbps High, 192 kbps Standard, 128 kbps Voice) or lossless .M4A streams. |
 | 📁 **Interactive Terminal Fallback** | Fallback in-terminal directory navigator with subfolder traversing, parent navigation (`..`), and manual path input. |
 | 📊 **Neon Live Progress Bar** | Rich animated progress display showing download percentage, transfer speed (MB/s), ETA countdown, and merging spinners. |
-| 🛡️ **Anti-403 Multi-Client Engine** | Configured with resilient client fallbacks (`mweb`, `android`, `web`, `tv`) to eliminate HTTP 403 Forbidden errors. |
+| 🛡️ **Anti-403 Challenge Engine** | Integrated Node.js challenge solving runtime and resilient client routing to eliminate HTTP 403 Forbidden errors on YouTube DASH streams. |
 | 💾 **History & Config Persistence** | Remembers your last-used download folder and maintains a download history in `~/.yt_grabber_config.json`. |
 | 🛑 **Graceful Signal Handling** | Non-destructive `Ctrl+C` cancellation that immediately removes temporary `.part` / `.ytdl` files without raw tracebacks. |
 
@@ -180,11 +180,14 @@ python main.py
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 ? Choose a format (↑↓ to navigate, Enter to select):
-  ▶ 🎬 1080p HD   MP4  (Video + Audio)   ~145.2 MB
-    🎬 720p HD    MP4  (Video + Audio)   ~78.4 MB
-    🎬 480p       MP4  (Video + Audio)   ~42.1 MB
-    ──────────────────────────────────────────
-    🎵 MP3        Audio only (Best Quality)  ~6.4 MB
+  ▶ 🎬 4K 2160p 60fps  MP4  (Ultra HD 4K)      ~520.4 MB
+    🎬 1080p 60fps     MP4  (Full HD)          ~145.2 MB
+    🎬 720p 60fps      MP4  (High Def)         ~78.4 MB
+    🎬 480p            MP4  (Standard)         ~42.1 MB
+    ──────────── 🎵 Audio Only Options ────────────
+    🎵 MP3 — Ultra Quality (320 kbps)          ~10.5 MB
+    🎵 MP3 — High Quality  (256 kbps)          ~8.4 MB
+    🎵 Original Audio (.M4A / Best Bitrate)    ~5.8 MB
 
 Opening folder selector window...
 [🗂️ Native OS File Explorer / Folder Dialog window opens in foreground]
