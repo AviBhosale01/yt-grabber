@@ -34,7 +34,7 @@
       ▀█▀  █    █▄▄█ █  █ █  █ █▄▄█ █▄▄█ █▄▄ █  █
 
    👾 8-BIT ARCADE  •  ⚡ YOUTUBE GRABBER PRO EDITION ⚡
-             🕹️ CREATED BY: Avii [ARCADE ENGINE]
+             🕹️ CREATED BY: Avii. [ARCADE ENGINE]
 ```
 
 </div>
