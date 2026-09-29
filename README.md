@@ -2,7 +2,7 @@
 
 # ⚡ Avii's YT Grabber
 
-### *Next-Gen Terminal YouTube Video & Audio Downloader*
+### *Ultra-Fast Next-Gen Terminal YouTube Video & Audio Downloader*
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![yt-dlp](https://img.shields.io/badge/yt--dlp-2026.8%2B-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
